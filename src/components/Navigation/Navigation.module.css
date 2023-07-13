@@ -4,8 +4,10 @@
 
 .item a {
     color: #61dafb;
+    display:block;
 }
 
-.item a.linkactive {
+.item a.active {
     color: goldenrod;
+    display:block;
 }
