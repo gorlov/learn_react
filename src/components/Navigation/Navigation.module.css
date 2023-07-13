@@ -2,6 +2,10 @@
     margin: 10px;
 }
 
-.link {
+.item a {
     color: #61dafb;
+}
+
+.item a.linkactive {
+    color: goldenrod;
 }

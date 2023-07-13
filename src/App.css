@@ -22,9 +22,9 @@
   background-color: #282c34;
 }
 
-.content {
+.app-wrapper-content {
   grid-area: c;
-  /* background-color: aqua; */
+  background-color: aqua;
 }
 
 
