@@ -1,0 +1,11 @@
+.dialog {
+    height: 25px;
+    border: 1px dotted black;
+    text-align: center;
+    line-height: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+

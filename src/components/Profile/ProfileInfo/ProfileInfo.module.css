@@ -1,0 +1,12 @@
+.bg {
+    background-image: url('./../../../bg.jpg');
+    height: 25vmin;
+    background-position: left top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  .descriptionBlock {
+    padding: 10px;
+  }

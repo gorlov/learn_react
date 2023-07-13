@@ -5,7 +5,9 @@ import Header from './components/Header/Header';
 import Navbar from './components/Navigation/Navigation';
 import Profile from './components/Profile/Profile';
 
-const App = () => {
+const App = (props) => {
+  console.log('App.js')
+  console.log(props);
   return (
     <BrowserRouter>
 
@@ -18,10 +20,12 @@ const App = () => {
 
         <div className='app-wrapper-content'>
           <Routes>
+            <Route path='/dialogs' element={<Dialogs state={props.state.dialogsPage}/>} />
+            <Route path='/profile' element={<Profile state={props.state.profilePage} />} />
             {/* <Route path='/dialogs' element={<Dialogs />} />
             <Route path='/profile' element={<Profile />} /> */}
-            <Route path='/dialogs' Component={Dialogs} />
-            <Route path='/profile' Component={Profile} />
+            {/* <Route path='/dialogs' Component={Dialogs} />
+            <Route path='/profile' Component={Profile} /> */}
           </Routes>
 
         </div>

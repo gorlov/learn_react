@@ -26,3 +26,9 @@
   margin: 10px;
   max-width: 80%;
 }
+
+.likes {
+  display: block;
+  margin: 10px;
+  font-weight: bold;
+}

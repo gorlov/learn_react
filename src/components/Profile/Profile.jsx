@@ -1,16 +1,17 @@
 import img from './../../bg.jpg';
 import MyPosts from './MyPosts/MyPosts';
 import style from './Profile.module.css';
+import ProfileInfo from './ProfileInfo/ProfileInfo';
 
-const Profile = () => {
+const Profile = (props) => {
+  console.log('Profile.js')
+  console.log(props)
   return (
     <div>
-      <div className={style.bg}>
-        {/* <img src={img} alt="kartinka ;-)" width="50%" /> */}
-      </div>
-      <div>ava</div>
 
-      <MyPosts />
+      <ProfileInfo />
+
+      <MyPosts posts={props.state.posts}/>
 
     </div>
 
