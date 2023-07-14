@@ -15,6 +15,8 @@ const Navbar = () => {
       <div className={style.item}><NavLink to="#" className={style.link}>link</NavLink></div>
       <div className={style.item}><NavLink to="#" className={style.link}>link</NavLink></div>
       <div className={style.item}><NavLink to="#" className={style.link}>link</NavLink></div>
+
+      <div className={style.copyleft}>🄯</div>
     </nav>
   );
 }

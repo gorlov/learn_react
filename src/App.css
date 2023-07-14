@@ -20,6 +20,7 @@
 .nav {
   grid-area: n;
   background-color: #282c34;
+  position: relative;
 }
 
 .app-wrapper-content {

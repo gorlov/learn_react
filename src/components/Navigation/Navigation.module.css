@@ -4,10 +4,18 @@
 
 .item a {
     color: #61dafb;
-    display:block;
+    display: block;
 }
 
 .item a.active {
     color: goldenrod;
-    display:block;
+    display: block;
+}
+
+.copyleft {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    color: #61dafb;
+    text-align: right;
 }
