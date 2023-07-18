@@ -1,3 +1,13 @@
+import dialogsReducer from "./dialogs_reducer";
+import profileReducer from "./profile_reducer";
+
+const ADD_POST = 'ADD-POST';
+const UPDATE_NEW_POST = 'UPDATE-NEW-POST';
+
+const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
+const SEND_MESSAGE = 'SEND-MESSAGE'
+
+
 let store = {
 
     _state: {
@@ -27,7 +37,9 @@ let store = {
                 { id: 2, message: 'WTF!?' },
                 { id: 3, message: 'Pariatur exercitation enim deserunt ad.' },
                 { id: 4, message: 'Eiusmod nostrud magna adipisicing ad.' },
-            ]
+            ],
+
+            newMessageBody: ''
         }
 
     },
@@ -47,27 +59,16 @@ let store = {
     },
 
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
-            let newPost = {
-                id: 5,
-                post: this._state.profilePage.newPostText,
-                likesCount: 0
-            };
 
-            this._state.profilePage.posts.push(newPost);
-            this._state.profilePage.newPost = '';
-            this._callSubscriber(this._state);
-            
-        } else if (action.type === 'UPDATE-NEW-POST') {
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
 
-            this._state.profilePage.newPostText = action.newText;
+        this._callSubscriber(this._state);
 
-            this._callSubscriber(this._state);
-        }
     }
 
-
 }
+    
 
 window.store = store;
 
