@@ -11,7 +11,9 @@ const Navbar = () => {
       <div className={style.item}><NavLink to="/profile" className={({isActive, isPending}) => isActive ? style.active : ""}>Profile</NavLink></div>
 
       <div className={style.item}><NavLink to="/dialogs" className={({isActive, isPending}) => isActive ? style.active : ""}>Dialogs</NavLink></div>
-      <div className={style.item}><NavLink to="#" className={style.link}>link</NavLink></div>
+      
+      <div className={style.item}><NavLink to="/users" className={({isActive, isPending}) => isActive ? style.active : ""}>Users</NavLink></div>
+      
       <div className={style.item}><NavLink to="#" className={style.link}>link</NavLink></div>
       <div className={style.item}><NavLink to="#" className={style.link}>link</NavLink></div>
       <div className={style.item}><NavLink to="#" className={style.link}>link</NavLink></div>
