@@ -6,6 +6,13 @@
     width: 80px;
 }
 
+.pageButton {
+    margin: 10PX;
+    cursor: pointer;
+}
+
 .selectedPage {
     font-weight: bold;
+    cursor: pointer;
+    margin: 10PX;
 }

@@ -10,28 +10,43 @@ class Users extends React.Component {
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPageNumber}&count=${this.props.pageSize}`)
         .then(responce => {
             this.props.setUsers(responce.data.items);
+            this.props.setTotalUsersCount(responce.data.totalCount);
         })
-        console.log('class')
-        console.log(this.props.users);
+    }
+
+    onPageChenged = (pageNumber) => {
+        this.props.setCurrentPageNumber(pageNumber)
+
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
+        .then(responce => {
+            this.props.setUsers(responce.data.items);
+        })
     }
 
     render() {
+
+        console.log('users render props');
+        console.log(this.props);
 
         let pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize);
 
         let pages = [];
 
-        for (let i=1; i<=pagesCount; i++) {
+        for (let i = 1; i <= pagesCount; i++) {
+            console.log(`i = ${i}`);
             pages.push(i);
         }
 
-
+        console.log('pages = ');
+        console.log(pages);
+        console.log(pagesCount);
 
         return (
             <div>
                 <div>
                     { pages.map( p => {
-                        return  <span className={this.props.currentPageNumber === p && style.selectedPage}>{p}</span>
+                        return  <span className={this.props.currentPageNumber === p ? style.selectedPage : style.pageButton}
+                        onClick={ (e) => { this.onPageChenged(p)}}>{p}</span>
                     })}
                 </div>
                 {
