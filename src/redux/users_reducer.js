@@ -1,18 +1,14 @@
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET-USERS';
+const SET_CURRENT_PAGE_NUMBER = 'SET-CURRENT-PAGE-NUMBER';
 
 
 let initialState = {
-    users: [
-        { id: 1, photoURL: './face_1.png', followed: true, fullName: 'AVG', status: 'true`Ъ', location: { city: 'Moscow', country: 'Russia' } },
-        { id: 2, photoURL: './face_1.png', followed: true, fullName: 'Merlin', status: 'true`Ъ', location: { city: 'Lipetsk', country: 'Russia' } },
-        { id: 3, photoURL: './face_1.png', followed: false, fullName: 'Neo', status: 'true`Ъ', location: { city: 'Elets', country: 'Russia' } },
-        { id: 4, photoURL: './face_1.png', followed: false, fullName: 'Xeron', status: 'true`Ъ', location: { city: 'Lipetsk', country: 'Russia' } },
-        { id: 5, photoURL: './face_1.png', followed: true, fullName: 'Martin', status: 'true`Ъ', location: { city: 'Voronezh', country: 'Russia' } },
-        { id: 6, photoURL: './face_1.png', followed: true, fullName: 'Tema', status: 'true`Ъ', location: { city: 'Voronezh', country: 'Russia' } },
-    ],
-    newPostText: '... и животноводство!'
+    users: [],
+    pageSize: 3,
+    totalUsersCount: 0,
+    currentPageNumber: 1
 }
 
 
@@ -45,6 +41,12 @@ const usersReducer = (state = initialState, action) => {
             return {
                 ...state,
                 users: [...state.users, ...action.users]
+            }
+
+        case SET_CURRENT_PAGE_NUMBER:
+            return {
+                ...state,
+                currentPageNumber: action.currentPageNumber
             }
 
         default:

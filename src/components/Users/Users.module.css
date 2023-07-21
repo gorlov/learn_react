@@ -5,3 +5,7 @@
 .followButton {
     width: 80px;
 }
+
+.selectedPage {
+    font-weight: bold;
+}

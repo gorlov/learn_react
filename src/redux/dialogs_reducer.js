@@ -11,8 +11,8 @@ let initialState = {
     messages: [
         { id: 1, message: 'h!' },
         { id: 2, message: 'WTF!?' },
-        { id: 3, message: 'Pariatur exercitation enim deserunt ad.' },
-        { id: 4, message: 'Eiusmod nostrud magna adipisicing ad.' },
+        { id: 3, message: 'ИТ кот-задрот в зеленых тонах' },
+        { id: 4, message: 'На интересной работе и сны интересные!' },
     ],
     newMessageBody: ''
 }

@@ -3,12 +3,13 @@
 }
 
 .item a {
-    color: #61dafb;
+    color: #448D76;
     display: block;
+    text-decoration: none;
 }
 
 .item a.active {
-    color: goldenrod;
+    color: #F3F7D4;
     display: block;
 }
 
@@ -16,6 +17,6 @@
     width: 100%;
     position: absolute;
     bottom: 0;
-    color: #61dafb;
+    color: #F3F7D4;
     text-align: right;
 }

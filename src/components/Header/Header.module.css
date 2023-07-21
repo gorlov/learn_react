@@ -1,4 +1,5 @@
 .logo {
+    margin: 10px;
     height: 55px;
     pointer-events: none;
 }

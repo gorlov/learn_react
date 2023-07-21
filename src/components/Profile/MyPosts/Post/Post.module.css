@@ -3,25 +3,26 @@
   margin-top: 20px;
   margin-bottom: 20px;
 
-  border-bottom: 1px solid rgba(153, 205, 50, 0.452);
+  border-bottom: 1px dashed #093426;
 
 }
 
 .round {
   width: 5em;
   height: 5em;
-  border: 2px solid yellowgreen;
+  border: 2px solid #448D76;
   border-radius: 50%;
-  background: rgba(106, 142, 35, 0.432);
+  background: #CBE432;
   text-align: center;
   display: inline-block;
   line-height: 5em;
   margin: 10px;
   vertical-align: top;
+  color:#448D76
 }
 
 .txt {
-  color: DarkOliveGreen;
+  color: #093426;
   display: inline-block;
   margin: 10px;
   max-width: 80%;
