@@ -20,7 +20,7 @@ const ProfileInfo = (props) => {
       </div>
 
 
-      <hr />
+      {/* <hr className={delimiter}/> */}
     </div>
 
 

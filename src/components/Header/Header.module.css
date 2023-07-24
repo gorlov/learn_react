@@ -21,3 +21,28 @@
         transform: rotate(360deg);
     }
 }
+
+.loginBlock {
+    float: right;
+    width: 200px;
+}
+
+.loginBlock a {
+    color: #093426;
+    display: block;
+    text-decoration: none;
+    line-height: 75px;
+}
+
+.loginBlock a.active {
+    color: #F3F7D4;
+    display: block;
+}
+
+.loginBlock p {
+    /* display: block; */
+    margin-block-start: 0;
+    margin-block-end: 0;
+    line-height: 75px;
+    color: #F3F7D4;
+}

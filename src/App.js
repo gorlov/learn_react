@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
-import Header from './components/Header/Header';
 import Navbar from './components/Navigation/Navigation';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import UsersContainer from './components/Users/UsersContainer';
+import HeaderContainer from './components/Header/HeaderContainer';
 
 const App = (props) => {
   console.log('App.js')
@@ -14,7 +14,7 @@ const App = (props) => {
 
       <div className='App'>
 
-        <Header />
+        <HeaderContainer />
 
         <Navbar />
 
