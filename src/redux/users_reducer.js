@@ -1,9 +1,12 @@
+import { userAPI } from "../api/api";
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET-USERS';
 const SET_CURRENT_PAGE_NUMBER = 'SET-CURRENT-PAGE-NUMBER';
 const SET_TOTAL_USERS_COUNT = 'SET-TOTAL-USERS-COUNT';
 const TOGGLE_FETCHING = 'TOGGLE_FETCHING';
+const TOGGLE_FOLLOWING_PROGRESS = 'TOGGLE_FOLLOWING_PROGRESS';
 
 
 let initialState = {
@@ -11,7 +14,8 @@ let initialState = {
     pageSize: 100,
     totalUsersCount: 0,
     currentPageNumber: 1,
-    isFetching: false
+    isFetching: false,
+    followingInProgress: []
 }
 
 
@@ -64,6 +68,15 @@ const usersReducer = (state = initialState, action) => {
                 ...state,
                 isFetching: action.isFetching
             }
+
+        case TOGGLE_FOLLOWING_PROGRESS:
+            console.log(`followingProgress = ${action.followingProgress}`);
+            return {
+                ...state,
+                followingInProgress: action.followingInProgress
+                    ? [...state.followingInProgress, action.userId]
+                    : state.followingInProgress.filter(id => id != action.userId)
+            }
         default:
             return state;
 
@@ -79,6 +92,23 @@ export const setUsers = (users) => ({ type: SET_USERS, users });
 export const setCurrentPageNumber = (currentPageNumber) => ({ type: SET_CURRENT_PAGE_NUMBER, currentPageNumber });
 export const setTotalUsersCount = (totalUsersCount) => ({ type: SET_TOTAL_USERS_COUNT, totalUsersCount });
 export const toggleFetching = (isFetching) => ({ type: TOGGLE_FETCHING, isFetching });
+export const toggleFollowing = (followingInProgress, userId) => ({ type: TOGGLE_FOLLOWING_PROGRESS, followingInProgress, userId });
 
+
+export const getUsers = (currentPageNumber, pageSize) => {    //  ThunkCreator
+    return (dispatch) => {
+
+        dispatch(toggleFetching(true));
+        dispatch(toggleFollowing(true));
+
+        userAPI.getUsers(currentPageNumber, pageSize).then(data => {
+            console.log(data);
+            dispatch(toggleFetching(false));
+            dispatch(toggleFollowing(false));
+            dispatch(setUsers(data.items));
+            dispatch(setTotalUsersCount(data.totalCount));
+        })
+    }
+}
 
 export default usersReducer;
