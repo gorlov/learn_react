@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import axios from 'axios';
 
 
-import { follow, unfollow, setUsers, setCurrentPageNumber, setTotalUsersCount, toggleFetching, toggleFollowing, getUsers } from "../../redux/users_reducer";
+import { follow, unfollow, setCurrentPageNumber, setTotalUsersCount, toggleFollowing, getUsers } from "../../redux/users_reducer";
 import Users from './Users';
 import Preloader from "../common/preloader/Preloader";
 import { userAPI } from "../../api/api";
@@ -18,7 +18,7 @@ class UsersContainer extends React.Component {
     }
 
     onPageChenged = (pageNumber) => {
-
+        // this.props.setCurrentPage(pageNumber);
         this.props.getUsers(pageNumber, this.props.pageSize);
         
     }
@@ -35,7 +35,6 @@ class UsersContainer extends React.Component {
                     onPageChenged={this.onPageChenged}
                     unfollow={this.props.unfollow}
                     follow={this.props.follow}
-                    toggleFollowing={this.props.toggleFollowing}
                     followingInProgress={this.props.followingInProgress}
                 /> 
         }
