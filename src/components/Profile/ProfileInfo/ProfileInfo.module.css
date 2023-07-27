@@ -15,3 +15,7 @@
   /* .delimiter {
     border: ;
   } */
+
+  .statusText {
+    width: 50vmax;
+  }

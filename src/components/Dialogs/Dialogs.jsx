@@ -31,14 +31,6 @@ const Dialogs = (props) => {
         let body = e.target.value;
         props.updateNewMessageBody(body);
     }
-    debugger;
-
-    if (props.isAuth == false) {
-        return (
-
-            <Navigate to={'/login'} />
-        )
-    };
 
     return (
         <div className={style.dialogs}>
