@@ -2,7 +2,7 @@
 import style from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
-import {updateNewMessageBodyCreator, sendMessageCreator} from '../../redux/dialogs_reducer'
+import { Navigate } from 'react-router-dom';
 
 
 const Dialogs = (props) => {
@@ -31,6 +31,14 @@ const Dialogs = (props) => {
         let body = e.target.value;
         props.updateNewMessageBody(body);
     }
+    debugger;
+
+    if (props.isAuth == false) {
+        return (
+
+            <Navigate to={'/login'} />
+        )
+    };
 
     return (
         <div className={style.dialogs}>
@@ -42,7 +50,7 @@ const Dialogs = (props) => {
                 <div>{messagesItems}</div>
                 <div>
                     <div>
-                        <textarea 
+                        <textarea
                             value={newMessageBody}
                             placeholder='enter your message...'
                             onChange={onNewMessageChange}></textarea>

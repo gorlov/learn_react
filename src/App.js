@@ -5,6 +5,7 @@ import Navbar from './components/Navigation/Navigation';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import UsersContainer from './components/Users/UsersContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
+import Login from './components/Login/Login';
 
 const App = (props) => {
   console.log('App.js')
@@ -26,6 +27,8 @@ const App = (props) => {
             <Route path='/profile/:uid?' element={<ProfileContainer />} />
 
             <Route path='/users' element={<UsersContainer /> } />
+
+            <Route path='/login' element={<Login /> } />
 
             {/* <Route path='/dialogs' Component={Dialogs} />
             <Route path='/profile' Component={Profile} /> */}
