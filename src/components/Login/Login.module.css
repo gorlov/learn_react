@@ -1,0 +1,12 @@
+.loginWrapper {
+    margin: 10px;
+}
+
+
+.formError {
+    border: 1px dashed #FE2712;
+    color: #FE2712;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+}

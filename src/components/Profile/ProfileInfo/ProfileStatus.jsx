@@ -4,22 +4,39 @@ import style from './ProfileInfo.module.css'
 class ProfileStatus extends React.Component {
 
     state = {
-        editMode: false
+        editMode: false,
+        status: this.props.status
     }
 
-    activateEditMode () {
+    activateEditMode = () => {
 
         this.setState({
             editMode: true
         })
     }
 
-    deactivateEditMode () {
+    deactivateEditMode = () => {
 
         this.setState({
-            editMode: false
+            editMode: false,
+
+        });
+        this.props.updateUserStatus(this.state.status);
+    }
+
+    onStatusChange = (e) => {
+        this.setState({
+            status: e.currentTarget.value
         })
     }
+
+    // componentDidUpdate(prevProps, prevState) {
+    //     if (prevState.status !== this.props.status) {
+    //         this.setState({
+    //             status: this.props.status
+    //         });
+    //     }
+    // }
 
     render() {
 
@@ -27,18 +44,19 @@ class ProfileStatus extends React.Component {
             <div>
                 {!this.state.editMode &&
                     <div>
-                        <span className={style.statusText} onDoubleClick={this.activateEditMode.bind(this)}>{this.props.status}.</span>
+                        <h4>Статус:</h4>
+                        <span className={style.statusText} onDoubleClick={this.activateEditMode}>{this.props.status}</span>
                     </div>
                 }
                 {this.state.editMode &&
                     <div>
-                        <input autoFocus={true} onBlur={this.deactivateEditMode.bind(this)} valeu={this.props.status} />
+                        <input onChange={this.onStatusChange} autoFocus={true} onBlur={this.deactivateEditMode} value={this.state.status} />
                     </div>
                 }
-
+                {/* 
                 <div>
                     <button >push me!</button>
-                </div>
+                </div> */}
             </div>
         )
     }
