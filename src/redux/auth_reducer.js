@@ -8,7 +8,7 @@ const TOGGLE_FETCHING = 'TOGGLE_FETCHING';
 
 
 let initialState = {
-    id: null,
+    userId: null,
     login: null,
     email: null,
     isAuth: false,
@@ -38,22 +38,28 @@ const auth_reducer = (state = initialState, action) => {
 }
 
 
-export const setAuthUserData = (userId, email, login, isAuth) => ({ type: SET_USER_DATA, data: { userId, email, login, isAuth } });
+// export const setAuthUserData = (userId, email, login, isAuth) => ({ type: SET_USER_DATA, data: { userId, email, login, isAuth } });
+
+export const setAuthUserData = (userId, email, login, isAuth) => {
+    return { type: SET_USER_DATA, data: { userId, email, login, isAuth } };
+}
+
+
 
 export const toggleFetching = (isFetching) => ({ type: TOGGLE_FETCHING, isFetching });
 
 
-export const getMe = () => {    //  ThunkCreator
-    return (dispatch) => {
-        authAPI.getMe().then(
-            data => {
-                if (data.resultCode === 0) {
-                    let { id, login, email } = data.data;
-                    dispatch(setAuthUserData(id, email, login, true));
-                }
-            });
-    }
+export const getMe = () => (dispatch) => {    //  ThunkCreator
+    return authAPI.me().then(
+        data => {
+            if (data.resultCode === 0) {
+                let { id, email, login } = data.data;
+                console.log({ id, email, login });
+                dispatch(setAuthUserData(id, email, login, true));
+            }
+        });
 }
+
 
 export const login = (email, password, rememberMe) => {    //  ThunkCreator
 
@@ -65,7 +71,7 @@ export const login = (email, password, rememberMe) => {    //  ThunkCreator
                     dispatch(getMe());
                 } else {
                     let errMsg = responce.data.messages.length > 0 ? responce.data.messages[0] : "Unknown error..."
-                    dispatch(stopSubmit('login', {_error: errMsg } ));
+                    dispatch(stopSubmit('login', { _error: errMsg }));
                 }
             });
     }

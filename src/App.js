@@ -9,33 +9,24 @@ import ProfileContainer from './components/Profile/ProfileContainer';
 import UsersContainer from './components/Users/UsersContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
-import {getMe} from "./redux/auth_reducer";
+import { initializeApp } from "./redux/app_reducer";
 import { compose } from 'redux';
-
-function withRouter(Component) {
-  function ComponentWithRouterProp(props) {
-    let location = useLocation();
-    let navigate = useNavigate();
-    let params = useParams();
-    return (
-      <Component
-        {...props}
-        router={{ location, navigate, params }}
-      />
-    );
-  }
-
-  return ComponentWithRouterProp;
-}
+import  withRouter  from './hoc/withRouter';
+import Preloader from './components/common/preloader/Preloader';
 
 
 class App extends React.Component {
 
   componentDidMount() {
-    this.props.getMe();
+    this.props.initializeApp();
   }
 
   render() {
+    
+    if (!this.props.initialized) {
+      return <Preloader />
+    }
+
     return (
       <div className='App'>
         <HeaderContainer />
@@ -59,9 +50,15 @@ class App extends React.Component {
 }
 
 
+const mapStateToProps = (state) => ({
+  initialized: state.app.initialized
+});
+
+// export default withRouter(connect(null, { getMe })(App));
 
 export default compose(
   withRouter,
-  connect(null, { getMe }) (App));
+  connect(mapStateToProps, { initializeApp }))(App);
+
 
 

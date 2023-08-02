@@ -4,7 +4,6 @@ import style from './ProfileInfo.module.css';
 import ProfileStatus from './ProfileStatus';
 
 const ProfileInfo = (props) => {
-
   if (!props.profile) {
     <Preloader />
   } else return (

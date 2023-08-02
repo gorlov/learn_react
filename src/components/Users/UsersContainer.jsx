@@ -1,14 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
-import axios from 'axios';
+import { compose } from "redux";
 
 
 import { follow, unfollow, setCurrentPageNumber, setTotalUsersCount, toggleFollowing, getUsers } from "../../redux/users_reducer";
 import Users from './Users';
 import Preloader from "../common/preloader/Preloader";
-import { userAPI } from "../../api/api";
-import { compose } from "redux";
+
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { getUsersList, getCurrentPageNumber, getFollowingInProgress, getIsFetching, getPageSize, getTotalUsersCount } from "../../redux/users-selectors";
+
 
 
 class UsersContainer extends React.Component {
@@ -44,17 +45,28 @@ class UsersContainer extends React.Component {
     }
 }
 
-
 let mapStateToProps = (state) => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPageNumber: state.usersPage.currentPageNumber,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsersList(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPageNumber: getCurrentPageNumber(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
     }
 }
+
+
+// let mapStateToProps = (state) => {
+//     return {
+//         users: state.usersPage.users,
+//         pageSize: state.usersPage.pageSize,
+//         totalUsersCount: state.usersPage.totalUsersCount,
+//         currentPageNumber: state.usersPage.currentPageNumber,
+//         isFetching: state.usersPage.isFetching,
+//         followingInProgress: state.usersPage.followingInProgress
+//     }
+// }
 
 // let mapDispatchToProps = (dispatch) => {
 //     return {
@@ -81,6 +93,6 @@ let mapStateToProps = (state) => {
 // }
 
 export default compose(
-    withAuthRedirect,
+    // withAuthRedirect,
     connect(mapStateToProps, {follow, unfollow, setCurrentPageNumber, setTotalUsersCount, toggleFollowing, getUsers})
 )(UsersContainer);

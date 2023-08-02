@@ -6,23 +6,24 @@ import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { getUserProfile, getUserStatus, updateUserStatus } from "../../redux/profile_reducer";
 import Profile from './Profile';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
+import  withRouter  from '../../hoc/withRouter';
 
 
-function withRouter(Component) {
-  function ComponentWithRouterProp(props) {
-    let location = useLocation();
-    let navigate = useNavigate();
-    let params = useParams();
-    return (
-      <Component
-        {...props}
-        router={{ location, navigate, params }}
-      />
-    );
-  }
+// function withRouter(Component) {
+//   function ComponentWithRouterProp(props) {
+//     let location = useLocation();
+//     let navigate = useNavigate();
+//     let params = useParams();
+//     return (
+//       <Component
+//         {...props}
+//         router={{ location, navigate, params }}
+//       />
+//     );
+//   }
 
-  return ComponentWithRouterProp;
-}
+//   return ComponentWithRouterProp;
+// }
 
 class ProfileContainer extends React.Component {
 
@@ -63,6 +64,6 @@ let mapStateToProps = (state) => ({
 
 export default compose(
   connect(mapStateToProps, { getUserProfile, getUserStatus, updateUserStatus }),
-  // withRouter,
+  withRouter,
   withAuthRedirect
 )(ProfileContainer)
