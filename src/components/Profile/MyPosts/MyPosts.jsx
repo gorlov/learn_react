@@ -39,7 +39,7 @@ const ProfilePostForm = (props) => {
 
     <form onSubmit={props.handleSubmit}>
 
-      <Field placeholder={'text'} name={'newPostElement'} component={Textarea} validate={[requiredField, maxLength10 ]} />
+      <Field placeholder={'29634'} name={'newPostElement'} component={Textarea} validate={[requiredField, maxLength10 ]} />
       <div>
         <button>Send post</button>
       </div>

@@ -16,7 +16,8 @@ const Navbar = () => {
       
       <div className={style.item}><NavLink to="#" className={style.link}>link</NavLink></div>
       <div className={style.item}><NavLink to="#" className={style.link}>link</NavLink></div>
-      <div className={style.item}><NavLink to="#" className={style.link}>link</NavLink></div>
+      
+      <div className={style.item}><NavLink to="/ignlogs" className={({isActive, isPending}) => isActive ? style.active : ""}>logs</NavLink></div>
 
       <div className={style.copyleft}>🄯</div>
     </nav>

@@ -1,0 +1,21 @@
+form div {
+    margin: 10px;
+}
+
+.logForm {
+    display: flex;
+}
+
+.forButton {
+    position: relative;
+}
+
+.forButton button {
+    position: absolute;
+    bottom: 0;
+}
+
+.btn {    
+    position: absolute;
+    bottom: 0;
+}

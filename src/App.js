@@ -13,6 +13,7 @@ import { initializeApp } from "./redux/app_reducer";
 import { compose } from 'redux';
 import  withRouter  from './hoc/withRouter';
 import Preloader from './components/common/preloader/Preloader';
+import IgnLogs from './components/IgnLogs/IgnLogs';
 
 
 class App extends React.Component {
@@ -41,6 +42,8 @@ class App extends React.Component {
             <Route path='/users' element={<UsersContainer />} />
 
             <Route path='/login' element={<Login />} />
+
+            <Route path='/ignlogs' element={<IgnLogs />} />
 
           </Routes>
         </div>

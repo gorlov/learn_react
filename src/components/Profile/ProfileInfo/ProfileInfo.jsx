@@ -1,6 +1,7 @@
 // import img from './../../bg.jpg';
 import Preloader from '../../common/preloader/Preloader';
 import style from './ProfileInfo.module.css';
+import ProfileStatusClass from './ProfileStatusClass'; //вариант с классовой компонентой
 import ProfileStatus from './ProfileStatus';
 
 const ProfileInfo = (props) => {
