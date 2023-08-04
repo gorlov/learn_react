@@ -1,7 +1,10 @@
 
 import { logAPI } from "../api/ignAPI";
 
+const SET_LOG_LINES = 'SET_LOG_LINES';
+
 let initialState = {
+    logLines: '',
     lineFrom: null,
     lineTo: null,
     showInfo: true,
@@ -15,17 +18,18 @@ let initialState = {
 const logs_reducer = (state = initialState, action) => {
 
     switch (action.type) {
-        case SET_USER_DATA:
-            return {
-                ...state,
-                ...action.data
-            }
+        // case SET_USER_DATA:
+        //     return {
+        //         ...state,
+        //         ...action.data
+        //     }
 
-        case TOGGLE_FETCHING:
-            return {
-                ...state,
-                isFetching: action.isFetching
-            }
+        // case TOGGLE_FETCHING:
+        //     return {
+        //         ...state,
+        //         isFetching: action.isFetching
+        //     }
+
         default:
             return state;
 
@@ -33,22 +37,26 @@ const logs_reducer = (state = initialState, action) => {
 }
 
 
+// const setLogLines = () => ({ type: SET_LOG_LINES, strLines });
 
 
 
-
-export const login = (email, password, rememberMe) => {    //  ThunkCreator
+export const loadLines = (lineFrom, lineTo, path) => {    //  ThunkCreator
 
     return (dispatch) => {
-        authAPI.login(email, password, rememberMe).then(
+
+        logAPI.getLines(lineFrom, lineTo, path).then(
             responce => {
                 console.log(responce);
-                if (responce.data.resultCode === 0) {
-                    dispatch(getMe());
-                } else {
-                    let errMsg = responce.data.messages.length > 0 ? responce.data.messages[0] : "Unknown error..."
-                    dispatch(stopSubmit('login', { _error: errMsg }));
-                }
+                // if (responce.data.resultCode === 0) {
+                //     dispatch(getMe());
+                // } else {
+                //     let errMsg = responce.data.messages.length > 0 ? responce.data.messages[0] : "Unknown error..."
+                //     dispatch(stopSubmit('login', { _error: errMsg }));
+                // }
             });
     }
 }
+
+
+export default logs_reducer;

@@ -1,5 +1,8 @@
 import style from './IgnLogs.module.css'
 import { Field, reduxForm } from "redux-form"
+import { connect } from 'react-redux';
+
+import { loadLines } from '../../redux/logs_reducer'
 
 const LineSelectorForm = (props) => {
 
@@ -25,8 +28,9 @@ const LineSelectorReduxForm = reduxForm({ form: 'lineSelector' })(LineSelectorFo
 const IgnLogs = (props) => {
 
     const onSubmit = (formData) => {
-        console.log(formData)
-        // props.login(formData.email, formData.password, formData.rememberMe)
+        console.log(formData);
+        console.log(props);
+        props.loadLines(formData.lineFrom, formData.lineTo);
     }
 
 
@@ -41,4 +45,4 @@ const IgnLogs = (props) => {
 
 
 
-export default IgnLogs;
+export default connect(null, {loadLines}) (IgnLogs);
