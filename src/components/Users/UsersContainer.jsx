@@ -15,7 +15,7 @@ import { getUsersList, getCurrentPageNumber, getFollowingInProgress, getIsFetchi
 class UsersContainer extends React.Component {
 
     componentDidMount() {
-
+        console.log('getting users');
         this.props.getUsers(this.props.currentPageNumber, this.props.pageSize);
         
     }
@@ -26,7 +26,12 @@ class UsersContainer extends React.Component {
         
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps != this.props || nextState !=this.state;
+    }
+
     render() {
+        console.log('render users');
         return (
             <>
                 { this.props.isFetching === true ? <Preloader /> : 
