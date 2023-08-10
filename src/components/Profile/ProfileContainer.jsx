@@ -3,32 +3,15 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 
-import { getUserProfile, getUserStatus, updateUserStatus } from "../../redux/profile_reducer";
+import { getUserProfile, getUserStatus, updateUserStatus, savePhoto } from "../../redux/profile_reducer";
 import Profile from './Profile';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
-import  withRouter  from '../../hoc/withRouter';
+import withRouter from '../../hoc/withRouter';
 
-
-// function withRouter(Component) {
-//   function ComponentWithRouterProp(props) {
-//     let location = useLocation();
-//     let navigate = useNavigate();
-//     let params = useParams();
-//     return (
-//       <Component
-//         {...props}
-//         router={{ location, navigate, params }}
-//       />
-//     );
-//   }
-
-//   return ComponentWithRouterProp;
-// }
 
 class ProfileContainer extends React.Component {
 
-  componentDidMount() {
-    // let userID = !this.props.router.params.uid ? 29634 : this.props.router.params.uid;
+  refreshProfile() {
     let userID = this.props.router.params.uid;
     if (!this.props.router.params.uid) {
       userID = this.props.autorizedUserId;
@@ -38,15 +21,27 @@ class ProfileContainer extends React.Component {
     this.props.getUserStatus(userID);
   }
 
+  componentDidMount() {
+    this.refreshProfile();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.router.params.uid != prevProps.router.params.uid) {
+      this.refreshProfile();
+    }
+  }
+
   render() {
 
     return (
       <div>
         <Profile
           {...this.props}
+          isOwner={!this.props.router.params.uid}
           profile={this.props.profile}
           status={this.props.status}
           updateUserStatus={this.props.updateUserStatus}
+          savePhoto={this.props.savePhoto}
         />
       </div>
     )
@@ -63,7 +58,7 @@ let mapStateToProps = (state) => ({
 
 
 export default compose(
-  connect(mapStateToProps, { getUserProfile, getUserStatus, updateUserStatus }),
+  connect(mapStateToProps, { getUserProfile, getUserStatus, updateUserStatus, savePhoto }),
   withRouter,
   withAuthRedirect
 )(ProfileContainer)

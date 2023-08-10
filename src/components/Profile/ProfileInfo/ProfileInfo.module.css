@@ -1,21 +1,34 @@
 .bg {
-    background-image: url('./../../../bg.jpg');
-    height: 25vmin;
-    background-position: bottom;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  }
+  background-image: url('./../../../bg.jpg');
+  height: 25vmin;
+  background-position: bottom;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
 
-  .descriptionBlock {
-    padding: 10px;
-    border-bottom: 1px dashed #093426;
-  }
+.descriptionBlock {
+  padding: 10px;
+  border-bottom: 1px dashed #093426;
+}
 
-  /* .delimiter {
+/* .delimiter {
     border: ;
   } */
 
-  .statusText {
-    width: 50vmax;
-  }
+.statusText {
+  width: 50vmax;
+}
+
+.ava {
+  max-width: 250px;
+}
+
+/* label {
+  cursor: pointer;
+}
+.uploadPhoto input {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+} */
