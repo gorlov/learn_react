@@ -14,7 +14,7 @@ const ProfileInfo = (props) => {
 
   const onPhotoSelect = (e) => {
     if(e.target.files.length) {
-      props.savePhoto = e.target.files[0];
+      props.savePhoto(e.target.files[0]);
     }
   }
 
@@ -28,8 +28,8 @@ const ProfileInfo = (props) => {
         <img className={style.ava} src={props.profile.photos.large || noPhoto} />
         {props.isOwner &&
           <div className={style.uploadPhoto}>
-            {/* <label for="upload-photo">Browse...</label> */}
-            <input type="file" id={"upload-photo"} onChange={onPhotoSelect} accept="image/png, image/jpeg" />
+            <label htmlFor="upload-photo">Browse...</label>
+            <input type="file" id="upload-photo" onChange={onPhotoSelect} />
           </div>
         }
 

@@ -117,7 +117,7 @@ export const updateUserStatus = (status) => {    //  ThunkCreator
 export const savePhoto = (file) => {    //  ThunkCreator
 
     return (dispatch) => {
-        profileAPI.savePhoto(file).then(responce => {
+        profileAPI.aploadPhoto(file).then(responce => {
             if (responce.data.resultCode === 0) {
                 dispatch(savePhotoSuccess(responce.data.data.photos));
             }

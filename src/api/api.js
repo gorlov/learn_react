@@ -41,7 +41,9 @@ export const profileAPI = {
         return instance.put(`profile/status/`, {status})
     },
 
-    savePhoto(photoFile) {
+    aploadPhoto(photoFile) {
+        console.log(photoFile);
+
         const formData = new FormData();
         formData.append('image', photoFile);
         return instance.put(`profile/photo/`, formData, {
