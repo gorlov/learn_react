@@ -5,18 +5,32 @@ const SET_USER_DATA = 'SET_USER_DATA';
 
 const TOGGLE_FETCHING = 'TOGGLE_FETCHING';
 
+// export type InitialStateType = {
+//     userId: number | null
+//     login: string | null
+//     email: string | null
+//     isAuth: boolean
+//     isFetching: boolean
+//     captchaUrl: string | null
+// }
 
 
 let initialState = {
-    userId: null,
-    login: null,
-    email: null,
+    userId: null as number | null,
+    login: null as string | null,
+    email: null as string | null,
     isAuth: false,
-    isFetching: false
+    isFetching: false,
+    captchaUrl: null as string | null
 }
 
+export type InitialStateType = typeof initialState;
 
-const auth_reducer = (state = initialState, action) => {
+// type AuthReducerActionType = {
+//     type: 
+// }
+
+const auth_reducer = (state = initialState, action: any):InitialStateType => {
 
     switch (action.type) {
         case SET_USER_DATA:
@@ -37,19 +51,32 @@ const auth_reducer = (state = initialState, action) => {
     }
 }
 
+type SetAuthUserDataActionType = {
+    userId: number | null
+    email: string | null
+    login: string | null
+    isAuth: boolean
+}
 
-// export const setAuthUserData = (userId, email, login, isAuth) => ({ type: SET_USER_DATA, data: { userId, email, login, isAuth } });
+type SetAuthActionType = {
+    type: typeof SET_USER_DATA, 
+    data: SetAuthUserDataActionType
+}
 
-export const setAuthUserData = (userId, email, login, isAuth) => {
+export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean):SetAuthActionType => {
     return { type: SET_USER_DATA, data: { userId, email, login, isAuth } };
 }
 
 
+type ToggleFetchingActionType = {
+    type: typeof TOGGLE_FETCHING
+    isFetching: boolean
+}
 
-export const toggleFetching = (isFetching) => ({ type: TOGGLE_FETCHING, isFetching });
+export const toggleFetching = (isFetching:boolean) => ({ type: TOGGLE_FETCHING, isFetching });
 
 
-export const getMe = () => (dispatch) => {    //  ThunkCreator
+export const getMe = () => (dispatch: any) => {    //  ThunkCreator
     return authAPI.me().then(
         data => {
             if (data.resultCode === 0) {
@@ -61,9 +88,9 @@ export const getMe = () => (dispatch) => {    //  ThunkCreator
 }
 
 
-export const login = (email, password, rememberMe) => {    //  ThunkCreator
+export const login = (email: string, password: string, rememberMe: boolean) => {    //  ThunkCreator
 
-    return (dispatch) => {
+    return (dispatch: any) => {
         authAPI.login(email, password, rememberMe).then(
             responce => {
                 console.log(responce);
@@ -78,7 +105,7 @@ export const login = (email, password, rememberMe) => {    //  ThunkCreator
 }
 
 export const logout = () => {    //  ThunkCreator
-    return (dispatch) => {
+    return (dispatch: any) => {
         authAPI.logout().then(responce => {
             if (responce.data.resultCode === 0) {
                 dispatch(setAuthUserData(null, null, null, false));
