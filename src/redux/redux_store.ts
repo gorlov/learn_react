@@ -10,7 +10,7 @@ import appReducer from "./app_reducer";
 import logs_reducer from "./logs_reducer";
 
 
-let redusers = combineReducers({
+let rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
     usersPage: usersReducer,
@@ -20,9 +20,14 @@ let redusers = combineReducers({
     logs: logs_reducer
 });
 
-let store = createStore(redusers, applyMiddleware(thunkMiddleware));
+    type RootReducerType = typeof rootReducer;
+    export type AppStateRedicerType = ReturnType<RootReducerType>
 
 
+let store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+
+
+// @ts-ignore
 window.store = store;
 
 export default store;

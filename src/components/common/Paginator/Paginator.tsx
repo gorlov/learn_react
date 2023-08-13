@@ -2,16 +2,23 @@ import React from 'react';
 import { useState } from 'react';
 import style from './Paginator.module.css';
 
-const Paginator = ({ onPageChenged, currentPageNumber, totalUsersCount, pageSize, portionSize=5 }) => {
+type PropsType = {
+    onPageChenged: (pageNumber: number) => void
+    currentPageNumber: number
+    totalUsersCount: number
+    pageSize: number
+    portionSize?: number
+}
+
+const Paginator: React.FC<PropsType> = ({ onPageChenged, currentPageNumber, totalUsersCount, pageSize, portionSize = 5 }) => {
 
     let pagesCount = Math.ceil(totalUsersCount / pageSize);
 
-    let pages = [];
+    let pages: Array<number> = [];
 
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i);
     }
-
 
     let portionCount = Math.ceil(pagesCount / portionSize);
     const [portionNumber, setPortionNumber] = useState(1);
@@ -39,7 +46,10 @@ const Paginator = ({ onPageChenged, currentPageNumber, totalUsersCount, pageSize
                 <i className={style.rightChevron} title="Вперед" onClick={() => { setPortionNumber(portionNumber + 1) }} />}
 
 
-
+                <span 
+                    className={currentPageNumber === pagesCount ? style.selectedPage : style.pageButton}
+                    onClick={(e) => { onPageChenged(pagesCount) }}
+                >{pagesCount}</span>
 
         </div>
 

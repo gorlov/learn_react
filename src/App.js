@@ -45,6 +45,8 @@ class App extends React.Component {
 
             <Route path='/ignlogs' element={<IgnLogs />} />
 
+            <Route path="*"  status={404}/>
+
           </Routes>
         </div>
       </div>

@@ -1,8 +1,9 @@
 import React from 'react';
 import Paginator from '../common/Paginator/Paginator';
 import User from './User';
+import { UserType } from '../../types/types';
 
-function sleep(milliseconds) {
+function sleep(milliseconds: number) {
     const date = Date.now();
     let currentDate = null;
     do {
@@ -10,7 +11,18 @@ function sleep(milliseconds) {
     } while (currentDate - date < milliseconds);
 }
 
-const Users = ({ currentPageNumber, onPageChenged, totalUsersCount, pageSize, users, ...props }) => {
+type PropsType = {
+    currentPageNumber: number
+    onPageChenged: (pageNumber:number) => void
+    totalUsersCount: number
+    pageSize:number
+    users: Array<UserType>
+    followingInProgress: Array<number>
+    unfollow: (userId:number) => void
+    follow: (userId:number) => void
+}
+
+const Users:React.FC<PropsType> = ({ currentPageNumber, onPageChenged, totalUsersCount, pageSize, users, ...props }) => {
 
     return (
         <div>

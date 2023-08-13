@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useEffect } from "react";
 import style from './ProfileInfo.module.css'
 
-const ProfileStatus = (props) => {
+type PropsType = {
+    status:string
+    updateUserStatus: (status:string) => void
+}
+
+const ProfileStatus = (props:PropsType) => {
 
     useEffect( () => {
         setStatus(props.status)
@@ -22,7 +27,7 @@ const ProfileStatus = (props) => {
 
     }
 
-    const onStatusChange = (e) => {
+    const onStatusChange = (e:ChangeEvent<HTMLInputElement>) => {
         setStatus(e.currentTarget.value);
     }
 
