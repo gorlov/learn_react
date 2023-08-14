@@ -1,5 +1,5 @@
 import { stopSubmit } from "redux-form";
-import { authAPI } from "../api/api";
+import { ResultCodesEnum, authAPI } from "../api/api";
 
 const SET_USER_DATA = 'SET_USER_DATA';
 
@@ -30,7 +30,7 @@ export type InitialStateType = typeof initialState;
 //     type: 
 // }
 
-const auth_reducer = (state = initialState, action: any):InitialStateType => {
+const auth_reducer = (state = initialState, action: any): InitialStateType => {
 
     switch (action.type) {
         case SET_USER_DATA:
@@ -59,11 +59,11 @@ type SetAuthUserDataActionType = {
 }
 
 type SetAuthActionType = {
-    type: typeof SET_USER_DATA, 
+    type: typeof SET_USER_DATA,
     data: SetAuthUserDataActionType
 }
 
-export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean):SetAuthActionType => {
+export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean): SetAuthActionType => {
     return { type: SET_USER_DATA, data: { userId, email, login, isAuth } };
 }
 
@@ -73,36 +73,35 @@ type ToggleFetchingActionType = {
     isFetching: boolean
 }
 
-export const toggleFetching = (isFetching:boolean) => ({ type: TOGGLE_FETCHING, isFetching });
+export const toggleFetching = (isFetching: boolean) => ({ type: TOGGLE_FETCHING, isFetching });
 
 
-export const getMe = () => (dispatch: any) => {    //  ThunkCreator
-    return authAPI.me().then(
-        data => {
-            if (data.resultCode === 0) {
-                let { id, email, login } = data.data;
-                console.log({ id, email, login });
-                dispatch(setAuthUserData(id, email, login, true));
-            }
-        });
-}
+export const getMe = () => async (dispatch: any) => {    //  ThunkCreator
 
+    let meData = await authAPI.me();
 
-export const login = (email: string, password: string, rememberMe: boolean) => {    //  ThunkCreator
-
-    return (dispatch: any) => {
-        authAPI.login(email, password, rememberMe).then(
-            responce => {
-                console.log(responce);
-                if (responce.data.resultCode === 0) {
-                    dispatch(getMe());
-                } else {
-                    let errMsg = responce.data.messages.length > 0 ? responce.data.messages[0] : "Unknown error..."
-                    dispatch(stopSubmit('login', { _error: errMsg }));
-                }
-            });
+    if (meData.resultCode === ResultCodesEnum.Success) {
+        let { id, email, login } = meData.data;
+        console.log({ id, email, login });
+        dispatch(setAuthUserData(id, email, login, true));
     }
+
 }
+
+
+export const login = (email: string, password: string, rememberMe: boolean) => async (dispatch: any) => {    //  ThunkCreator
+
+    let loginData = await authAPI.login(email, password, rememberMe);
+
+    if (loginData.resultCode === ResultCodesEnum.Success) {
+        dispatch(getMe());
+    } else {
+        let errMsg = loginData.messages.length > 0 ? loginData.messages[0] : "Unknown error..."
+        dispatch(stopSubmit('login', { _error: errMsg }));
+    }
+
+}
+
 
 export const logout = () => {    //  ThunkCreator
     return (dispatch: any) => {
