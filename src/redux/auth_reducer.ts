@@ -5,16 +5,6 @@ const SET_USER_DATA = 'SET_USER_DATA';
 
 const TOGGLE_FETCHING = 'TOGGLE_FETCHING';
 
-// export type InitialStateType = {
-//     userId: number | null
-//     login: string | null
-//     email: string | null
-//     isAuth: boolean
-//     isFetching: boolean
-//     captchaUrl: string | null
-// }
-
-
 let initialState = {
     userId: null as number | null,
     login: null as string | null,
