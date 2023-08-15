@@ -1,5 +1,7 @@
 import { stopSubmit } from "redux-form";
-import { ResultCodesEnum, authAPI } from "../api/api";
+import { ResultCodesEnum } from "../api/api";
+import { authAPI } from "../api/auth-api";
+import { BaseThunkType, InferActionsTypes } from "./redux_store";
 
 const SET_USER_DATA = 'SET_USER_DATA';
 
@@ -14,15 +16,17 @@ let initialState = {
     captchaUrl: null as string | null
 }
 
-export type InitialStateType = typeof initialState;
+const actions = {
+    toggleFetching: (isFetching: boolean) => ({ type: TOGGLE_FETCHING, isFetching } as const),
+    setAuthUserData: (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => {
+        return { type: SET_USER_DATA, data: { userId, email, login, isAuth } } as const;
+    }
+}
 
-// type AuthReducerActionType = {
-//     type: 
-// }
-
-const auth_reducer = (state = initialState, action: any): InitialStateType => {
+const auth_reducer = (state = initialState, action: ActionsType): InitialStateType => {
 
     switch (action.type) {
+
         case SET_USER_DATA:
             return {
                 ...state,
@@ -35,35 +39,29 @@ const auth_reducer = (state = initialState, action: any): InitialStateType => {
                 ...state,
                 isFetching: action.isFetching
             }
+
         default:
             return state;
 
     }
 }
 
-type SetAuthUserDataActionType = {
-    userId: number | null
-    email: string | null
-    login: string | null
-    isAuth: boolean
-}
+// type SetAuthUserDataActionType = {
+//     userId: number | null
+//     email: string | null
+//     login: string | null
+//     isAuth: boolean
+// }
 
-type SetAuthActionType = {
-    type: typeof SET_USER_DATA,
-    data: SetAuthUserDataActionType
-}
+// type SetAuthActionType = {
+//     type: typeof SET_USER_DATA,
+//     data: SetAuthUserDataActionType
+// }
 
-export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean): SetAuthActionType => {
-    return { type: SET_USER_DATA, data: { userId, email, login, isAuth } };
-}
-
-
-type ToggleFetchingActionType = {
-    type: typeof TOGGLE_FETCHING
-    isFetching: boolean
-}
-
-export const toggleFetching = (isFetching: boolean) => ({ type: TOGGLE_FETCHING, isFetching });
+// type ToggleFetchingActionType = {
+//     type: typeof TOGGLE_FETCHING
+//     isFetching: boolean
+// }
 
 
 export const getMe = () => async (dispatch: any) => {    //  ThunkCreator
@@ -73,7 +71,7 @@ export const getMe = () => async (dispatch: any) => {    //  ThunkCreator
     if (meData.resultCode === ResultCodesEnum.Success) {
         let { id, email, login } = meData.data;
         console.log({ id, email, login });
-        dispatch(setAuthUserData(id, email, login, true));
+        dispatch(actions.setAuthUserData(id, email, login, true));
     }
 
 }
@@ -97,10 +95,15 @@ export const logout = () => {    //  ThunkCreator
     return (dispatch: any) => {
         authAPI.logout().then(responce => {
             if (responce.data.resultCode === 0) {
-                dispatch(setAuthUserData(null, null, null, false));
+                dispatch(actions.setAuthUserData(null, null, null, false));
             }
         });
     }
 }
 
 export default auth_reducer;
+
+
+export type InitialStateType = typeof initialState;
+type ActionsType = InferActionsTypes<typeof actions>;
+type ThunkType = BaseThunkType<ActionsType>;

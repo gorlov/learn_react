@@ -1,4 +1,5 @@
-import { profileAPI } from "../api/api";
+import { ResultCodesEnum } from "../api/api";
+import { profileAPI } from "../api/profile-api";
 import { PostType, ProfileType, PhotosType, ContactsType } from "../types/types"
 
 const ADD_POST = 'ADD-POST';
@@ -110,7 +111,7 @@ export const getUserProfile = (userID:number) => {    //  ThunkCreator
 
     return (dispatch:any) => {
         profileAPI.getProfile(userID).then(responce => {
-            dispatch(setUserProfile(responce.data));
+            dispatch(setUserProfile(responce));
         });
     }
 }
@@ -129,7 +130,7 @@ export const updateUserStatus = (status:string) => {    //  ThunkCreator
 
     return (dispatch:any) => {
         profileAPI.updateStatus(status).then(responce => {
-            if (responce.data.resultCode === 0) {
+            if (responce.resultCode === ResultCodesEnum.Success) {
                 dispatch(setStatus(status));
             }
         });
@@ -140,8 +141,8 @@ export const savePhoto = (file:any) => {    //  ThunkCreator
 
     return (dispatch:any) => {
         profileAPI.aploadPhoto(file).then(responce => {
-            if (responce.data.resultCode === 0) {
-                dispatch(savePhotoSuccess(responce.data.data.photos));
+            if (responce.resultCode === ResultCodesEnum.Success) {
+                dispatch(savePhotoSuccess(responce.data.photos));
             }
         });
     }
