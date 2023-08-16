@@ -2,7 +2,7 @@ import { APIResponseType, instance } from "./api"
 import { PhotosType, ProfileType } from "../types/types"
 
 type SavePotosResponseDataType = {
-    photos: PhotosType
+    photos: Array<PhotosType>
 }
 
 export const profileAPI = {
@@ -19,7 +19,7 @@ export const profileAPI = {
         return instance.put<APIResponseType>(`profile/status/`, { status }).then(response => response.data);
     },
 
-    aploadPhoto(photoFile: any) {
+    aploadPhoto(photoFile: File) {
         console.log(photoFile);
 
         const formData = new FormData();

@@ -6,7 +6,7 @@ import style from './Users.module.css';
 let User = ({ user, followingInProgress, unfollow, follow }) => {
 
     return (
-        <div key={user.id} >
+        <div className={style.userDiv} key={user.id} >
             <span>
                 <div>
                     <NavLink to={'/profile/' + user.id} >

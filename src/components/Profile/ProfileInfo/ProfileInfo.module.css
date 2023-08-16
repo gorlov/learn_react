@@ -18,6 +18,7 @@
 
 .statusText {
   width: 50vmax;
+  cursor: pointer;
 }
 
 .ava {

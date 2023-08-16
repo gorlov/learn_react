@@ -3,9 +3,6 @@ import { ResultCodesEnum } from "../api/api";
 import { authAPI } from "../api/auth-api";
 import { BaseThunkType, InferActionsTypes } from "./redux_store";
 
-const SET_USER_DATA = 'SET_USER_DATA';
-
-const TOGGLE_FETCHING = 'TOGGLE_FETCHING';
 
 let initialState = {
     userId: null as number | null,
@@ -17,9 +14,9 @@ let initialState = {
 }
 
 const actions = {
-    toggleFetching: (isFetching: boolean) => ({ type: TOGGLE_FETCHING, isFetching } as const),
+    toggleFetching: (isFetching: boolean) => ({ type: '/auth_ruducer/TOGGLE_FETCHING', isFetching } as const),
     setAuthUserData: (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => {
-        return { type: SET_USER_DATA, data: { userId, email, login, isAuth } } as const;
+        return { type: '/auth_ruducer/SET_USER_DATA', data: { userId, email, login, isAuth } } as const;
     }
 }
 
@@ -27,13 +24,13 @@ const auth_reducer = (state = initialState, action: ActionsType): InitialStateTy
 
     switch (action.type) {
 
-        case SET_USER_DATA:
+        case '/auth_ruducer/SET_USER_DATA':
             return {
                 ...state,
                 ...action.data
             }
 
-        case TOGGLE_FETCHING:
+        case '/auth_ruducer/TOGGLE_FETCHING':
             console.log(`isFetching = ${action.isFetching}`);
             return {
                 ...state,
@@ -46,38 +43,20 @@ const auth_reducer = (state = initialState, action: ActionsType): InitialStateTy
     }
 }
 
-// type SetAuthUserDataActionType = {
-//     userId: number | null
-//     email: string | null
-//     login: string | null
-//     isAuth: boolean
-// }
 
-// type SetAuthActionType = {
-//     type: typeof SET_USER_DATA,
-//     data: SetAuthUserDataActionType
-// }
-
-// type ToggleFetchingActionType = {
-//     type: typeof TOGGLE_FETCHING
-//     isFetching: boolean
-// }
-
-
-export const getMe = () => async (dispatch: any) => {    //  ThunkCreator
+export const getMe = ():ThunkType => async (dispatch) => {    //  ThunkCreator
 
     let meData = await authAPI.me();
 
     if (meData.resultCode === ResultCodesEnum.Success) {
         let { id, email, login } = meData.data;
-        console.log({ id, email, login });
         dispatch(actions.setAuthUserData(id, email, login, true));
     }
 
 }
 
 
-export const login = (email: string, password: string, rememberMe: boolean) => async (dispatch: any) => {    //  ThunkCreator
+export const login = (email: string, password: string, rememberMe: boolean):ThunkType => async (dispatch) => {    //  ThunkCreator
 
     let loginData = await authAPI.login(email, password, rememberMe);
 
@@ -106,4 +85,4 @@ export default auth_reducer;
 
 export type InitialStateType = typeof initialState;
 type ActionsType = InferActionsTypes<typeof actions>;
-type ThunkType = BaseThunkType<ActionsType>;
+type ThunkType = BaseThunkType<ActionsType | ReturnType<typeof stopSubmit>>;
