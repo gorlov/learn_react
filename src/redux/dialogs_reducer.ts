@@ -52,7 +52,7 @@ const dialogsReducer = (state = initialState, action: ActionsType) => {
 
 
 export const actions = {
-    sendMessageCreator: (newMessageBody: string) => ({type: '/dialogs_reducer/SEND-MESSAGE', newMessageBody})
+    sendMessage: (newMessageBody: string) => ({type: '/dialogs_reducer/SEND-MESSAGE', newMessageBody})
 }
 
 
