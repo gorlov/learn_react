@@ -2,15 +2,14 @@
 import style from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
-import { Navigate } from 'react-router-dom';
-import { Field, InjectedFormProps, reduxForm } from 'redux-form';
+import { InjectedFormProps, reduxForm } from 'redux-form';
 import { Textarea, createField } from '../common/FormsControls/FormsControls';
 import { maxLengthCreator, requiredField } from '../../utils/validators/validators';
 import { InitialStateType } from '../../redux/dialogs_reducer';
 
 type PropsType = {
     dialogsPage: InitialStateType
-    sendMessage: (messageText:string) => void
+    sendMessage: (messageText: string) => void
 }
 
 const Dialogs: React.FC<PropsType> = (props) => {
@@ -25,7 +24,7 @@ const Dialogs: React.FC<PropsType> = (props) => {
     let dialogItems = dialogData.map(dialog => <DialogItem name={dialog.name} id={dialog.id} />);
     let messagesItems = messagesData.map(messageItem => <Message message={messageItem.message} />);
 
-    let addNewMassage = (values:NewMessageFormType) => {
+    let addNewMassage = (values: NewMessageFormType) => {
         props.sendMessage(values.newMessageBody);
     }
 
@@ -46,22 +45,23 @@ const Dialogs: React.FC<PropsType> = (props) => {
 
 }
 
-const maxLength50 = maxLengthCreator(50); 
+const maxLength50 = maxLengthCreator(50);
 
 export type NewMessageFormType = {
     newMessageBody: string
 }
 
+
 type NewMessageFormValuesKeysType = Extract<keyof NewMessageFormType, string>
 type NewMessageFormPropsType = {}
 
-const DialogAddMassageForm:React.FC<InjectedFormProps<NewMessageFormType, NewMessageFormPropsType> & NewMessageFormPropsType> = (props) => {
+const DialogAddMassageForm: React.FC<InjectedFormProps<NewMessageFormType, NewMessageFormPropsType> & NewMessageFormPropsType>  = (props) => {
 
     return (
 
         <form onSubmit={props.handleSubmit}>
             <div>
-                {createField<NewMessageFormValuesKeysType>('enter your message...', 'newMessageBody', [requiredField, maxLength50 ], Textarea)}
+                {createField<NewMessageFormValuesKeysType>('enter your message...', 'newMessageBody', [requiredField, maxLength50], Textarea)}
 
                 {/* <Field name='newMessageBody' placeholder='enter your message...' component={Textarea}
                 validate={[requiredField, maxLength50 ]} /> */}
@@ -73,6 +73,9 @@ const DialogAddMassageForm:React.FC<InjectedFormProps<NewMessageFormType, NewMes
     )
 }
 
-const DialogAddMassageReduxForm = reduxForm({form: 'dialogMassage'})(DialogAddMassageForm);
+const DialogAddMassageReduxForm = reduxForm({ form: 'dialogMassage' })(DialogAddMassageForm);
 
 export default Dialogs;
+
+
+// : React.FC<InjectedFormProps<NewMessageFormType, NewMessageFormPropsType> & NewMessageFormPropsType> 

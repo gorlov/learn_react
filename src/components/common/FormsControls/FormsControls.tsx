@@ -27,13 +27,15 @@ export const Input: React.FC<WrappedFieldProps> = (props) => {
 }
 
 
-export const createField = (placeholder: string | undefined,
-    name: string,
+// const funcName= <T extends string> (name: T) =>{...}
+
+export const createField = <NameEnum extends string> (placeholder: string | undefined,
+    name: NameEnum,
     validators: Array<FieldValidatorType>,
-    component: string | React.Component | React.FC,
+    component: React.FC<WrappedFieldProps>,
     props = {},
     text = "") => (
     <div>
         <Field placeholder={placeholder} name={name} validate={validators} component={component} {...props} /> {text}
     </div>
-)
+    )
