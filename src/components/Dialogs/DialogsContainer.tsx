@@ -13,4 +13,5 @@ let mapStateToProps = (state: AppStateRedicerType) => {
     
 }
 
-export default compose(connect(mapStateToProps, { ...actions }), withAuthRedirect)(Dialogs);
+// export default compose(connect(mapStateToProps, { ...actions }), withAuthRedirect)(Dialogs);
+export default compose(connect(mapStateToProps, { ...actions }))(Dialogs);

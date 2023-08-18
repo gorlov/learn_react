@@ -73,7 +73,7 @@ const DialogAddMassageForm: React.FC<InjectedFormProps<NewMessageFormType, NewMe
     )
 }
 
-const DialogAddMassageReduxForm = reduxForm({ form: 'dialogMassage' })(DialogAddMassageForm);
+const DialogAddMassageReduxForm = reduxForm<NewMessageFormType, NewMessageFormPropsType>({ form: 'dialogMassage' })(DialogAddMassageForm);
 
 export default Dialogs;
 
