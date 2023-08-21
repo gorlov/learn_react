@@ -15,7 +15,7 @@ const FormControl:React.FC<WrappedFieldProps>  = ({meta: {touched, error}}, chil
 }
  
 
-export const Textarea: React.FC<WrappedFieldProps> = (props) => {
+export const Textarea: React.FC<WrappedFieldProps & React.PropsWithChildren> = (props) => {
     const {input, meta, ...restProps} = props;
 
     return <FormControl {...props}><textarea {...input} {...restProps} /></FormControl>

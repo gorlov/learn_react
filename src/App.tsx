@@ -14,9 +14,14 @@ import { compose } from 'redux';
 import  withRouter  from './hoc/withRouter';
 import Preloader from './components/common/preloader/Preloader';
 import IgnLogs from './components/IgnLogs/IgnLogs';
+import { AppStateRedicerType } from './redux/redux_store';
+import { type } from 'os';
 
-
-class App extends React.Component {
+type MapPropsType = ReturnType<typeof mapStateToProps>
+type DispatchPropsType = {
+  initializeApp: () => void
+}
+class App extends React.Component<MapPropsType & DispatchPropsType> {
 
   componentDidMount() {
     this.props.initializeApp();
@@ -25,7 +30,9 @@ class App extends React.Component {
   render() {
     
     if (!this.props.initialized) {
-      return <Preloader />
+      return (
+        <Preloader/>
+      )
     }
 
     return (
@@ -39,13 +46,13 @@ class App extends React.Component {
 
             <Route path='/profile/:uid?' element={<ProfileContainer />} />
 
-            <Route path='/users' element={<UsersContainer />} />
+            <Route path='/users' element={<UsersContainer pageTytle={''} />} />
 
             <Route path='/login' element={<Login />} />
 
             <Route path='/ignlogs' element={<IgnLogs />} />
 
-            <Route path="*"  status={404}/>
+            {/* <Route path="*"  status={404}/> */}
 
           </Routes>
         </div>
@@ -55,7 +62,7 @@ class App extends React.Component {
 }
 
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:AppStateRedicerType) => ({
   initialized: state.app.initialized
 });
 
