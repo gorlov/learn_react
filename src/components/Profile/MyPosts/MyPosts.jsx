@@ -1,9 +1,9 @@
 import React from 'react';
 import style from './MyPosts.module.css';
 import Post from './Post/Post';
-import { Field, reduxForm } from 'redux-form';
 import {requiredField, maxLengthCreator} from '../../../utils/validators/validators'
 import { Textarea } from '../../common/FormsControls/FormsControls';
+import { Field, reduxForm } from 'redux-form';
 
 
 const MyPosts = (props) => {
@@ -49,5 +49,6 @@ const ProfilePostForm = (props) => {
 }
 
 const ProfilePostReduxForm = reduxForm({form: 'profilePostForm'})(ProfilePostForm);
+
 
 export default MyPosts;

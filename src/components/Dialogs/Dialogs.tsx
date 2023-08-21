@@ -24,7 +24,7 @@ const Dialogs: React.FC<PropsType> = (props) => {
     let dialogItems = dialogData.map(dialog => <DialogItem name={dialog.name} id={dialog.id} />);
     let messagesItems = messagesData.map(messageItem => <Message message={messageItem.message} />);
 
-    let addNewMassage = (values: NewMessageFormType) => {
+    let addNewMessage = (values: NewMessageFormType) => {
         props.sendMessage(values.newMessageBody);
     }
 
@@ -37,7 +37,7 @@ const Dialogs: React.FC<PropsType> = (props) => {
             <div className={style.messages}>
                 <div>{messagesItems}</div>
 
-                <DialogAddMassageReduxForm onSubmit={addNewMassage} />
+                <DialogAddMessageReduxForm onSubmit={addNewMessage} />
 
             </div>
         </div>
@@ -55,7 +55,7 @@ export type NewMessageFormType = {
 type NewMessageFormValuesKeysType = Extract<keyof NewMessageFormType, string>
 type NewMessageFormPropsType = {}
 
-const DialogAddMassageForm: React.FC<InjectedFormProps<NewMessageFormType, NewMessageFormPropsType> & NewMessageFormPropsType>  = (props) => {
+const DialogAddMessageForm: React.FC<InjectedFormProps<NewMessageFormType, NewMessageFormPropsType> & NewMessageFormPropsType>  = (props) => {
 
     return (
 
@@ -73,7 +73,7 @@ const DialogAddMassageForm: React.FC<InjectedFormProps<NewMessageFormType, NewMe
     )
 }
 
-const DialogAddMassageReduxForm = reduxForm<NewMessageFormType, NewMessageFormPropsType>({ form: 'dialogMassage' })(DialogAddMassageForm);
+const DialogAddMessageReduxForm = reduxForm<NewMessageFormType, NewMessageFormPropsType>({ form: 'dialogMassage' })(DialogAddMessageForm);
 
 export default Dialogs;
 
