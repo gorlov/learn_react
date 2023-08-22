@@ -8,16 +8,13 @@ type FormControlPropsType = {
     children: React.ReactNode
 }
 
-const FormControl: React.FC<WrappedFieldProps> = ({ meta: { touched, error } }, children) => {
+const FormControl: React.FC<FormControlPropsType> = ({ meta: { touched, error } , children}) => {
     const hasError = error && touched;
+    
     return (
         <div className={style.formControl + " " + (hasError ? style.error : "")} >
 
-            {/* {fieldElem.map((child:React.ReactNode) => <div>{child}</div>)} */}
-
-
             <div>{children}</div>
-
 
             {hasError && <span>{error} </span>}
         </div>
@@ -25,8 +22,8 @@ const FormControl: React.FC<WrappedFieldProps> = ({ meta: { touched, error } }, 
 }
 
 
-export const Textarea: React.FC<WrappedFieldProps & React.PropsWithChildren> = (props) => {
-    const { input, meta, children, ...restProps } = props;
+export const Textarea: React.FC<WrappedFieldProps > = (props) => {
+    const { input, meta,  ...restProps } = props;
 
     return <FormControl {...props}><textarea {...input} {...restProps} /></FormControl>
 }
