@@ -6,12 +6,15 @@ import { Textarea, createField } from '../../common/FormsControls/FormsControls'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form';
 import { PostType } from '../../../types/types';
 
-type MyPostsPropsType = {
+export type MyPostsPropsType = {
   posts: Array<PostType>
+}
+
+export type MyPostsDispatchType = {
   addPost: (newPostElement:string) => void
 }
 
-const MyPosts:React.FC<MyPostsPropsType> = (props) => {
+const MyPosts:React.FC<MyPostsPropsType & MyPostsDispatchType> = (props) => {
 
   let postsElements = props.posts.map(p => <Post message={p.post} likesCount={p.likesCount} />)
 

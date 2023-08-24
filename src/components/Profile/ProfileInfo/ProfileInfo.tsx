@@ -3,17 +3,25 @@ import Preloader from '../../common/preloader/Preloader';
 import style from './ProfileInfo.module.css';
 import ProfileStatus from './ProfileStatus';
 import noPhoto from '../../../assets/images/user.png';
+import { ProfileType } from '../../../types/types';
+import React, { ChangeEvent, ChangeEventHandler } from 'react';
+
+type PropsType = {
+  profile: ProfileType | null
+  status: string
+  updateUserStatus: (status: string) => void
+  isOwner: boolean
+  savePhoto: (file: File) => void
+}
 
 
-
-
-const ProfileInfo = (props) => {
+const ProfileInfo:React.FC<PropsType> = (props) => {
   if (!props.profile) {
     return <Preloader />
   }
 
-  const onPhotoSelect = (e) => {
-    if(e.target.files.length) {
+  const onPhotoSelect = (e:ChangeEvent<HTMLInputElement>) => {
+    if(e.target.files?.length) {
       props.savePhoto(e.target.files[0]);
     }
   }

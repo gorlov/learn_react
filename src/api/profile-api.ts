@@ -2,7 +2,7 @@ import { APIResponseType, instance } from "./api"
 import { PhotosType, ProfileType } from "../types/types"
 
 type SavePotosResponseDataType = {
-    photos: Array<PhotosType>
+    photos: PhotosType
 }
 
 export const profileAPI = {
