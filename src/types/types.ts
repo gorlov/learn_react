@@ -27,7 +27,7 @@ export type ProfileType = {
     lookingForAJobDescription: string | null
     fullName: string,
     userId: number
-    photos: Array<PhotosType>
+    photos: PhotosType
 }
 
 export type UserType = {

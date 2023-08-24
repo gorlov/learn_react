@@ -11,7 +11,7 @@ import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
 import { initializeApp } from "./redux/app_reducer";
 import { compose } from 'redux';
-import  withRouter  from './hoc/withRouter';
+import  { withRouter }  from './hoc/withRouter';
 import Preloader from './components/common/preloader/Preloader';
 import IgnLogs from './components/IgnLogs/IgnLogs';
 import { AppStateRedicerType } from './redux/redux_store';

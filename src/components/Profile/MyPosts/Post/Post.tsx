@@ -1,6 +1,8 @@
+import { PostType } from '../../../../types/types';
 import style from './Post.module.css';
 
-const Post = (props) => {
+
+const Post:React.FC<PostType> = (props) => {
 
   return (
 
@@ -8,7 +10,7 @@ const Post = (props) => {
     <div className={style.item}>
       <div className={style.round}>йа!</div>
       <div className={style.txt}>
-        <div >{props.message}</div>
+        <div >{props.post}</div>
         <div className={style.likes}>like: {props.likesCount}</div>
       </div>
     </div>

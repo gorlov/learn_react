@@ -77,7 +77,7 @@ export const actions = {
     setUserProfile: (profile: ProfileType) => ({ type: '/profile_reducer/SET_USER_PROFILE', profile } as const),
     setStatus: (status: string) => ({ type: '/profile_reducer/SET_STATUS', status } as const),
     deletePost: (postId: number) => ({ type: '/profile_reducer/DELETE_POST', postId } as const),
-    savePhotoSuccess: (photos: Array<PhotosType>) => ({ type: '/profile_reducer/SAVE_PHOTO_SUCCESS', photos } as const)
+    savePhotoSuccess: (photos: PhotosType) => ({ type: '/profile_reducer/SAVE_PHOTO_SUCCESS', photos } as const)
 }
 
 export const getUserProfile = (userID: number): ThunkType => async (dispatch) => {    //  ThunkCreator

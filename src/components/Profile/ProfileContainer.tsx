@@ -1,31 +1,46 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+// import { RouteComponentProps } from 'react-router-dom';
 
 import { getUserProfile, getUserStatus, updateUserStatus, savePhoto } from "../../redux/profile_reducer";
 import Profile from './Profile';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
-import withRouter from '../../hoc/withRouter';
+import { withRouter, WithRouterProps } from '../../hoc/withRouter';
+import { AppStateRedicerType } from '../../redux/redux_store';
 
+type MapPropsType = ReturnType<typeof mapStateToProps>;
 
-class ProfileContainer extends React.Component {
+type MapDispatchType = {
+  getUserProfile: (userId: number) => void
+  getUserStatus: (userId:number) => void
+  updateUserStatus: (status:string) => void
+  savePhoto: (file: File) => void
+}
+
+interface PathParamsType extends WithRouterProps {
+  userID: string
+}
+
+type PropsType = MapPropsType & MapDispatchType & PathParamsType;
+
+class ProfileContainer extends React.Component<PropsType> {
 
   refreshProfile() {
-    let userID = this.props.router.params.uid;
+    let userId = this.props.router.params.uid;
     if (!this.props.router.params.uid) {
-      userID = this.props.autorizedUserId;
+      userId = this.props.autorizedUserId;
     }
 
-    this.props.getUserProfile(userID);
-    this.props.getUserStatus(userID);
+    this.props.getUserProfile(userId);
+    this.props.getUserStatus(userId);
   }
 
   componentDidMount() {
     this.refreshProfile();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps:PropsType) {
     if (this.props.router.params.uid != prevProps.router.params.uid) {
       this.refreshProfile();
     }
@@ -49,7 +64,7 @@ class ProfileContainer extends React.Component {
 }
 
 
-let mapStateToProps = (state) => ({
+let mapStateToProps = (state: AppStateRedicerType) => ({
   profile: state.profilePage.profile,
   status: state.profilePage.status,
   autorizedUserId: state.auth.userId,
