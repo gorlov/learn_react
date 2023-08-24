@@ -3,7 +3,12 @@ import style from './DialogItem.module.css';
 import withRouter from '../../../hoc/withRouter';
 
 
-const DialogItem = (props) => {
+type PropsType = {
+    name: string
+    id: number
+}
+
+const DialogItem:React.FC<PropsType> = (props) => {
 
     let path = `/dialogs/${props.id}`;
 
@@ -19,4 +24,4 @@ const DialogItem = (props) => {
 
 }
 
-export default withRouter(DialogItem);
+export default DialogItem;
