@@ -26,7 +26,7 @@ const Paginator: React.FC<PropsType> = ({ onPageChenged, currentPageNumber, tota
     let rightPortionPageNumber = (portionNumber + 1) * portionSize;
 
 
-    console.log(portionNumber);
+    console.log(`portionNumber = ${portionNumber}`);
 
     return (
         <div className={style.pagination}>

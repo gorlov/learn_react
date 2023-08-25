@@ -5,20 +5,21 @@ import style from "./Login.module.css"
 import { login, logout } from '../../redux/auth_reducer'
 import { Navigate } from "react-router-dom";
 import { AppStateRedicerType } from "../../redux/redux_store";
+import { Input, createField } from "../common/FormsControls/FormsControls";
+import { requiredField } from "../../utils/validators/validators";
+import appReducer from "../../redux/app_reducer";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
 
 
-const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType>> = ({handleSubmit, error}) => {
+const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType>> = ({ handleSubmit, error }) => {
     return (
         <form onSubmit={handleSubmit}>
-            <div>
-                <Field placeholder="email" name={'email'} component={'input'} />
-            </div>
-            <div>
-                <Field placeholder="password" name={'password'} type={'password'} component={'input'} />
-            </div>
-            <div>
-                <Field type={'checkbox'} name={'rememberMe'} component={'input'} /> Запомнить
-            </div>
+            {createField<LoginFormValuesTypeKeys>('email', 'email', [requiredField], Input)}
+            {createField<LoginFormValuesTypeKeys>('password', 'password', [requiredField], Input, { type: 'password' })}
+            {createField<LoginFormValuesTypeKeys>(undefined, 'rememberMe', [], Input, { type: 'checkbox' }, 'Запомнить')}
+
             {error && <div className={style.formError}>
                 <p>{error}</p>
             </div>
@@ -32,28 +33,30 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType>> = ({handleSubm
 
 const LoginReduxForm = reduxForm<LoginFormValuesType>({ form: 'login' })(LoginForm);
 
-type LoginFormValuesType = SubmitHandler &  {
-    email:string
-    password:string
-    rememberMe:boolean
+type LoginFormValuesType = SubmitHandler & {
+    email: string
+    password: string
+    rememberMe: boolean
 }
 
-type MapStateToPropsType = {
-    isAuth: boolean
-}
+type LoginFormValuesTypeKeys = Extract<keyof LoginFormValuesType, string>
+
 
 type MapDispatchToPropsType = {
     login: (email: string, password: string, rememberMe: boolean) => void
 }
 
-const Login: React.FC<MapStateToPropsType & MapDispatchToPropsType> = (props) => {
+export const Login: React.FC = () => {
+
+    const isAuth = useSelector((state: AppStateRedicerType) => state.auth.isAuth);
+
+    const dispatch: ThunkDispatch<{}, {}, any> = useDispatch();
 
     const onSubmit = (formData: LoginFormValuesType) => {
-        console.log(formData)
-        props.login(formData.email, formData.password, formData.rememberMe)
+        dispatch(login(formData.email, formData.password, formData.rememberMe));
     }
 
-    if (props.isAuth) {
+    if (isAuth) {
         return <Navigate to={"/profile"} />
     }
 
@@ -68,8 +71,8 @@ const Login: React.FC<MapStateToPropsType & MapDispatchToPropsType> = (props) =>
 
 }
 
-const mapStateToProps = (state:AppStateRedicerType):MapStateToPropsType => ({
-    isAuth: state.auth.isAuth
-})
+// const mapStateToProps = (state:AppStateRedicerType):MapStateToPropsType => ({
+//     isAuth: state.auth.isAuth
+// })
 
-export default connect(mapStateToProps, { login })(Login);
+// export default connect(null, { login })(Login);
