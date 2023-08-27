@@ -8,9 +8,13 @@ type PropsType = {
     totalUsersCount: number
     pageSize: number
     portionSize?: number
+    // pagesCount: number
 }
 
 const Paginator: React.FC<PropsType> = ({ onPageChenged, currentPageNumber, totalUsersCount, pageSize, portionSize = 5 }) => {
+
+// const Paginator: React.FC<PropsType> = ({ onPageChenged, currentPageNumber, pagesCount,  portionSize = 5 }) => {
+
 
     let pagesCount = Math.ceil(totalUsersCount / pageSize);
 
@@ -45,12 +49,12 @@ const Paginator: React.FC<PropsType> = ({ onPageChenged, currentPageNumber, tota
 
                 <i className={style.rightChevron} title="Вперед" onClick={() => { setPortionNumber(portionNumber + 1) }} />}
 
-
+{ pagesCount === 1 ? null :
                 <span 
                     className={currentPageNumber === pagesCount ? style.selectedPage : style.pageButton}
                     onClick={(e) => { onPageChenged(pagesCount) }}
                 >{pagesCount}</span>
-
+}
         </div>
 
     )

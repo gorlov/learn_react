@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux';
 import { FilterType, follow, getUsers, unfollow } from '../../redux/users_reducer';
 import { ThunkDispatch } from 'redux-thunk';
 import { Field, Form, Formik } from 'formik';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+
 
 function sleep(milliseconds: number) {
     const date = Date.now();
@@ -49,10 +51,27 @@ export const Users: React.FC<PropsType> = (props) => {
         dispatch(unfollow(userId))
     }
 
+    const navigate = useNavigate();
+
+    // const addr_str = useLocation();
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    let term = searchParams.get('term')
+    console.log(term);
+
+
+    useEffect(() => {
+        navigate(`/users?term=${filter.term}&friend=${filter.friend}&page=${currentPageNumber}`);
+    }, [filter, currentPageNumber]);
+
     useEffect(() => {
         // debugger
         dispatch(getUsers(currentPageNumber, pageSize, filter));
     }, []);
+
+
+    // let pagesCnt = Math.ceil(totalUsersCount / pageSize);
 
     return (
         <div>
@@ -61,6 +80,7 @@ export const Users: React.FC<PropsType> = (props) => {
                 onPageChenged={onPageChanged}
                 totalUsersCount={totalUsersCount}
                 pageSize={pageSize}
+            // pagesCount={pagesCnt}
             />
 
             <UsersSearchForm onFilterChanged={onFilterChanged} />
@@ -101,7 +121,7 @@ const UsersSearchForm: React.FC<UserSearchFormPropsType> = (props) => {
         //     term: values.term,
         //     friend: values.friend === 'null' ? null : values.friend === 'true' ? true : false
         // }
-        
+
         console.log(values);
         props.onFilterChanged(values);
         setSubmitting(false);
