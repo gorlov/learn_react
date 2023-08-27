@@ -12,7 +12,6 @@ type PropsType = {
 }
 
 let User: React.FC<PropsType> = ({ user, followingInProgress, unfollow, follow }) => {
-console.log(user);
     return (
         <div className={style.userDiv}  key={user.id}>
             <span>

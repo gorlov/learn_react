@@ -11,7 +11,11 @@ let initialState = {
     totalUsersCount: 0,
     currentPageNumber: 1,
     isFetching: false,
-    followingInProgress: [] as Array<number> // array of users id's
+    followingInProgress: [] as Array<number>, // array of users id's
+    filter: {
+        term: '',
+        friend: null as null | boolean 
+    }
 }
 
 const usersReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
@@ -72,6 +76,13 @@ const usersReducer = (state = initialState, action: ActionsTypes): InitialStateT
                     ? [...state.followingInProgress, action.userId]
                     : state.followingInProgress.filter(id => id != action.userId)
             }
+
+        case "/users_reducer/SET_USERS_FILTER":
+            return {
+                ...state,
+                filter: action.payload
+            }
+        
         default:
             return state;
 
@@ -85,16 +96,20 @@ export const actions = {
     setCurrentPageNumber: (currentPageNumber: number) => ({ type: '/users_reducer/SET_CURRENT_PAGE_NUMBER', currentPageNumber } as const),
     setTotalUsersCount: (totalUsersCount: number) => ({ type: '/users_reducer/SET_TOTAL_USERS_COUNT', totalUsersCount } as const),
     toggleFetching: (isFetching: boolean) => ({ type: '/users_reducer/TOGGLE_FETCHING', isFetching } as const),
-    toggleFollowing: (followingInProgress: boolean, userId: number) => ({ type: '/users_reducer/TOGGLE_FOLLOWING_PROGRESS', followingInProgress, userId } as const)
+    toggleFollowing: (followingInProgress: boolean, userId: number) => ({ type: '/users_reducer/TOGGLE_FOLLOWING_PROGRESS', followingInProgress, userId } as const),
+    setFilter: (filter:FilterType) => ({ type: '/users_reducer/SET_USERS_FILTER', payload: filter } as const)
+
 }
 
-export const getUsers = (currentPageNumber: number, pageSize: number): ThunkType => {    //  ThunkCreator
+export const getUsers = (currentPageNumber: number, pageSize: number, filter: FilterType): ThunkType => {    //  ThunkCreator
     return async (dispatch) => {
 
         dispatch(actions.toggleFetching(true));
         dispatch(actions.setCurrentPageNumber(currentPageNumber));
+        dispatch(actions.setFilter(filter));
 
-        let data = await userAPI.getUsers(currentPageNumber, pageSize);
+debugger
+        let data = await userAPI.getUsers(currentPageNumber, pageSize, filter.term, filter.friend);
 
         dispatch(actions.toggleFetching(false));
         dispatch(actions.setUsers(data.items));
@@ -133,6 +148,7 @@ export const follow = (userId: number) => {    //  ThunkCreator
 export default usersReducer;
 
 
-type InitialStateType = typeof initialState;
+export type InitialStateType = typeof initialState;
+export type FilterType = typeof initialState.filter;
 type ActionsTypes = InferActionsTypes<typeof actions>;
 type ThunkType = BaseThunkType<ActionsTypes>;

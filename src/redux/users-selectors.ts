@@ -23,3 +23,7 @@ export const  getIsFetching = (state:AppStateRedicerType) => {
 export const  getFollowingInProgress = (state:AppStateRedicerType) => {
     return state.usersPage.followingInProgress;
 }
+
+export const getUsersFilter = (state:AppStateRedicerType) => {
+    return state.usersPage.filter;
+}
