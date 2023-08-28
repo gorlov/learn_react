@@ -108,7 +108,7 @@ export const getUsers = (currentPageNumber: number, pageSize: number, filter: Fi
         dispatch(actions.setCurrentPageNumber(currentPageNumber));
         dispatch(actions.setFilter(filter));
 
-debugger
+
         let data = await userAPI.getUsers(currentPageNumber, pageSize, filter.term, filter.friend);
 
         dispatch(actions.toggleFetching(false));

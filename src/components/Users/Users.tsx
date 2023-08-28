@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import Paginator from '../common/Paginator/Paginator';
 import User from './User';
-import { UserType } from '../../types/types';
 import { useSelector } from 'react-redux';
 import { getCurrentPageNumber, getFollowingInProgress, getPageSize, getTotalUsersCount, getUsersFilter, getUsersList } from '../../redux/users-selectors';
 import { useDispatch } from 'react-redux';
 import { FilterType, follow, getUsers, unfollow } from '../../redux/users_reducer';
 import { ThunkDispatch } from 'redux-thunk';
-import { Field, Form, Formik } from 'formik';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { UsersSearchForm } from './UserSearchForm';
 
 
 function sleep(milliseconds: number) {
@@ -20,6 +19,11 @@ function sleep(milliseconds: number) {
 }
 
 type PropsType = {}
+type QueryParamsType = {
+    term?: string
+    page?: string
+    friend?: string
+}
 
 export const Users: React.FC<PropsType> = (props) => {
 
@@ -53,23 +57,53 @@ export const Users: React.FC<PropsType> = (props) => {
 
     const navigate = useNavigate();
 
-    // const addr_str = useLocation();
-
     const [searchParams, setSearchParams] = useSearchParams();
+    let urlTerm = searchParams.get('term');
+    let urlFriend = searchParams.get('friend');
+    let urlPage = searchParams.get('page');
 
-    let term = searchParams.get('term')
-    console.log(term);
-
-
-    useEffect(() => {
-        navigate(`/users?term=${filter.term}&friend=${filter.friend}&page=${currentPageNumber}`);
-    }, [filter, currentPageNumber]);
 
     useEffect(() => {
-        // debugger
-        dispatch(getUsers(currentPageNumber, pageSize, filter));
+
+        let actualPage = currentPageNumber;
+        if (!!urlPage) actualPage = Number(urlPage);
+
+        let actualFilter = filter;
+        if (!!urlTerm) actualFilter = { ...actualFilter, term: urlTerm };
+
+        switch (urlFriend) {
+            case 'null':
+                actualFilter = { ...actualFilter, friend: null };
+                break;
+            case 'true':
+                actualFilter = { ...actualFilter, friend: true };
+                break;
+            case 'false':
+                actualFilter = { ...actualFilter, friend: false };
+                break;
+
+        }
+
+        dispatch(getUsers(actualPage, pageSize, actualFilter));
     }, []);
 
+    useEffect(() => {
+        const query: QueryParamsType = {};
+
+        console.log('filter')
+        console.log(filter)
+
+        if (!!filter.term) query.term = filter.term;
+        if (filter.friend !== null) query.friend = String(filter.friend);
+        if (currentPageNumber !== 1) query.page = String(currentPageNumber);
+
+        console.log('query')
+        console.log(query)
+
+        setSearchParams(query);
+
+        // navigate(`/users?term=${filter.term}&friend=${filter.friend}&page=${currentPageNumber}`);
+    }, [filter, currentPageNumber]);
 
     // let pagesCnt = Math.ceil(totalUsersCount / pageSize);
 
@@ -99,58 +133,3 @@ export const Users: React.FC<PropsType> = (props) => {
     )
 }
 
-const UsersSearchFormValidate = (values: any) => {
-    const errors = {};
-    return errors;
-}
-
-type UserSearchFormPropsType = {
-    onFilterChanged: (filter: FilterType) => void
-}
-
-type FormType = {
-    term: string
-    friend: 'null' | 'true' | 'false'
-}
-
-const UsersSearchForm: React.FC<UserSearchFormPropsType> = (props) => {
-
-    const onSubmit = (values: FilterType, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
-
-        // const filter: FilterType = {
-        //     term: values.term,
-        //     friend: values.friend === 'null' ? null : values.friend === 'true' ? true : false
-        // }
-
-        console.log(values);
-        props.onFilterChanged(values);
-        setSubmitting(false);
-
-    }
-
-    return (
-        <div>
-            <Formik
-                initialValues={{ term: '', friend: null }}
-                validate={UsersSearchFormValidate}
-                onSubmit={onSubmit}
-            >
-                {({ isSubmitting }) => (
-                    <Form>
-                        <Field type="text" name="term" />
-
-                        <Field name="friend" as="select" >
-                            <option value="null">All</option>
-                            <option value="true">Only followed</option>
-                            <option value="false">Only unfollowed</option>
-
-                        </Field>
-
-                        <button type="submit" disabled={isSubmitting}>Search</button>
-                    </Form>
-                )}
-            </Formik>
-
-        </div>
-    )
-}
