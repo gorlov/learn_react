@@ -12,7 +12,7 @@ const Navbar:React.FC = () => {
       
       <div className={style.item}><NavLink to="/users" className={({isActive, isPending}) => isActive ? style.active : ""}>Users</NavLink></div>
       
-      <div className={style.item}><NavLink to="#" className={style.link}>link</NavLink></div>
+      <div className={style.item}><NavLink to="/chat" className={({isActive, isPending}) => isActive ? style.active : ""}>Chat</NavLink></div>
       <div className={style.item}><NavLink to="#" className={style.link}>link</NavLink></div>
       
       <div className={style.item}><NavLink to="/ignlogs" className={({isActive, isPending}) => isActive ? style.active : ""}>logs</NavLink></div>

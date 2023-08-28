@@ -16,6 +16,7 @@ import IgnLogs from './components/IgnLogs/IgnLogs';
 import { AppStateRedicerType } from './redux/redux_store';
 import { type } from 'os';
 import { Login } from './components/Login/Login';
+import { ChatPage } from './pages/ChatPage';
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
@@ -49,6 +50,8 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
             <Route path='/users' element={<UsersPage pageTytle={'test'} />} />
 
             <Route path='/login' element={<Login />} />
+
+            <Route path='/chat' element={<ChatPage />} />
 
             <Route path='/ignlogs' element={<IgnLogs />} />
 
