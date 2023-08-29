@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import { startMessagesListening, stopMessagesListening } from "../../redux/chat_reducer"
+import { sendMessage, startMessagesListening, stopMessagesListening } from "../../redux/chat_reducer"
 import { ThunkDispatch } from "redux-thunk"
 import { useSelector } from "react-redux"
 import { AppStateRedicerType } from "../../redux/redux_store"
@@ -64,16 +64,16 @@ const Chat: React.FC = () => {
     return (
         <div>
             <Messages />
-            <AddMessageForm  />
+            <AddMessageForm />
         </div>
     )
 }
 
-const Messages: React.FC<{  }> = ({  }) => {
+const Messages: React.FC<{}> = ({ }) => {
 
     const messages = useSelector((state: AppStateRedicerType) => state.chat.messages);
 
-    
+
     return (
         <div style={{ height: '70vh', overflowY: 'auto' }} >
             {messages.map((m, index) => <Message key={index} message={m} />)}
@@ -93,35 +93,19 @@ const Message: React.FC<{ message: ChatMessageType }> = ({ message }) => {
     )
 }
 
-const AddMessageForm: React.FC<{  }> = ({  }) => {
+const AddMessageForm: React.FC<{}> = ({ }) => {
     const [message, setMessage] = useState('');
-    const [wsChannelReadyStatus, setWsChannelReadyStatus] = useState<'pending' | 'ready'>('pending');
+    // const [wsChannelReadyStatus, setWsChannelReadyStatus] = useState<'pending' | 'ready'>('pending');
+    const dispatch: ThunkDispatch<{}, {}, any> = useDispatch();
 
 
-    useEffect(() => {
-
-        let openHandler = () => {
-            setWsChannelReadyStatus('ready');
-        }
-
-        wsChannel?.addEventListener('open', openHandler);
-
-        return () => {
-            wsChannel?.removeEventListener('open', openHandler);
-        }
-
-    }, [wsChannel])
-
-
-    const sendMessage = () => {
+    const sendMessageHandler = () => {
         if (!message) {
             return;
         }
-        wsChannel?.send(message);
+        dispatch(sendMessage(message));
         setMessage('');
     }
-
-    console.log(wsChannelReadyStatus);
 
     return (
         <div>
@@ -129,7 +113,7 @@ const AddMessageForm: React.FC<{  }> = ({  }) => {
                 <textarea onChange={(e) => setMessage(e.currentTarget.value)} value={message}></textarea>
             </div>
             <div>
-                <button onClick={sendMessage} disabled={wsChannelReadyStatus !== 'ready'}>send me</button>
+                <button onClick={sendMessageHandler} >send me</button>
             </div>
         </div>
     )

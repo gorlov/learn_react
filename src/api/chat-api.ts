@@ -2,7 +2,7 @@
 
 let subscribers = [] as SubscriberType[]
 
-let ws: WebSocket;
+let ws: WebSocket | null = null;
 
 const closeHandler = () => {
     console.log('CLOSE SOCKET');
@@ -20,9 +20,22 @@ function createChannel() {
 
     ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx');
     ws.addEventListener('close', closeHandler);
+    ws.addEventListener('message', messageHandler);
+
 }
 
 export const chatAPI = {
+    start() {
+        createChannel();
+    },
+
+    stop() {
+        subscribers = [];
+        ws?.removeEventListener('close', closeHandler);
+        ws?.removeEventListener('message', messageHandler);
+        ws?.close();
+    },
+
     subscribe(callback: SubscriberType) {
         subscribers.push(callback);
 
@@ -35,12 +48,16 @@ export const chatAPI = {
     // Отписка, вариант #2
     unsubscribe(callback: SubscriberType) {
         subscribers = subscribers.filter(s => s !== callback);
+    },
+
+    sendMessage(message: string) {
+        ws?.send(message);
     }
 }
 
 
 export type ChatMessageType = {
-    message: string,
+    message: string
     photo: string
     userId: number
     userName: string
