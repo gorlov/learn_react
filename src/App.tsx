@@ -16,7 +16,7 @@ import IgnLogs from './components/IgnLogs/IgnLogs';
 import { AppStateRedicerType } from './redux/redux_store';
 import { type } from 'os';
 import { Login } from './components/Login/Login';
-import { ChatPage } from './pages/ChatPage';
+import { ChatPage } from './pages/ChatPage/ChatPage';
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
