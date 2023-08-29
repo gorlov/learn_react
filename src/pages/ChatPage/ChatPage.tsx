@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import { startMessagesListening, stopMessagesListening } from "../../redux/chat_reducer"
+import { ThunkDispatch } from "redux-thunk"
+import { useSelector } from "react-redux"
+import { AppStateRedicerType } from "../../redux/redux_store"
 
 
 export const ChatPage: React.FC = () => {
@@ -19,59 +24,56 @@ type ChatMessageType = {
 }
 
 const Chat: React.FC = () => {
-    const [wsChannel, setWsChannel] = useState<WebSocket | null>(null);
+
+    const dispatch: ThunkDispatch<{}, {}, any> = useDispatch();
 
     useEffect(() => {
-
-        let ws: WebSocket;
-
-        const closeHandler = () => {
-            console.log('CLOSE SOCKET');
-            setTimeout(createChannel, 3000);
-        }
-
-        function createChannel() {
-            ws?.removeEventListener('close', closeHandler);
-            ws?.close();
-
-            ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx');
-            ws.addEventListener('close', closeHandler);
-            setWsChannel(ws);
-        }
-
-        createChannel();
-
+        dispatch(startMessagesListening());
         return () => {
-            ws.removeEventListener('close', closeHandler);
-            ws.close();
+            dispatch(stopMessagesListening());
         }
-
     }, [])
+
+    // useEffect(() => {
+
+    //     let ws: WebSocket;
+
+    //     const closeHandler = () => {
+    //         console.log('CLOSE SOCKET');
+    //         setTimeout(createChannel, 3000);
+    //     }
+
+    //     function createChannel() {
+    //         ws?.removeEventListener('close', closeHandler);
+    //         ws?.close();
+
+    //         ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx');
+    //         ws.addEventListener('close', closeHandler);
+    //         setWsChannel(ws);
+    //     }
+
+    //     createChannel();
+
+    //     return () => {
+    //         ws.removeEventListener('close', closeHandler);
+    //         ws.close();
+    //     }
+
+    // }, [])
 
     return (
         <div>
-            <Messages wsChannel={wsChannel} />
-            <AddMessageForm wsChannel={wsChannel} />
+            <Messages />
+            <AddMessageForm  />
         </div>
     )
 }
 
-const Messages: React.FC<{ wsChannel: WebSocket | null }> = ({ wsChannel }) => {
-    const [messages, setMessages] = useState<ChatMessageType[]>([]);
+const Messages: React.FC<{  }> = ({  }) => {
 
-    useEffect(() => {
-        let messageHandler = (e: MessageEvent) => {
-            let newMessages = JSON.parse(e.data);
-            setMessages((prevMessages) => [...prevMessages, ...newMessages]);
-        }
-        wsChannel?.addEventListener('message', messageHandler);
+    const messages = useSelector((state: AppStateRedicerType) => state.chat.messages);
 
-        return () => {
-            wsChannel?.removeEventListener('message', messageHandler);
-        }
-
-    }, [wsChannel])
-
+    
     return (
         <div style={{ height: '70vh', overflowY: 'auto' }} >
             {messages.map((m, index) => <Message key={index} message={m} />)}
@@ -91,7 +93,7 @@ const Message: React.FC<{ message: ChatMessageType }> = ({ message }) => {
     )
 }
 
-const AddMessageForm: React.FC<{ wsChannel: WebSocket | null }> = ({ wsChannel }) => {
+const AddMessageForm: React.FC<{  }> = ({  }) => {
     const [message, setMessage] = useState('');
     const [wsChannelReadyStatus, setWsChannelReadyStatus] = useState<'pending' | 'ready'>('pending');
 

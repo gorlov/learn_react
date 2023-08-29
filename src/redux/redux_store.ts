@@ -8,6 +8,7 @@ import auth_reducer from "./auth_reducer";
 import { reducer as formReducer } from 'redux-form';
 import appReducer from "./app_reducer";
 import logs_reducer from "./logs_reducer";
+import chat_reducer from "./chat_reducer";
 
 
 let rootReducer = combineReducers({
@@ -17,6 +18,7 @@ let rootReducer = combineReducers({
     auth: auth_reducer,
     form: formReducer,
     app: appReducer,
+    chat: chat_reducer,
     logs: logs_reducer
 });
 
